@@ -7,9 +7,22 @@ local inventory = require("inventory")
 
 local building = {}
 
-local function place(name, actions)
+local function place(name)
+    if not name then
+        error("place: block name can't be nil")
+    end
+
+    local ok, why = robot.place()
+    if not ok then
+        error("couldn't place block: " .. name .. "because: " .. why)
+    end
+
+    print("place: " .. why)
+end
+
+function building.place(name, actions)
     inventory.selectItem(name)
-    robot.place()
+    place(name)
 
     if actions then
         for i, action in ipairs(actions) do
@@ -20,35 +33,30 @@ local function place(name, actions)
         end
     end
 end
-building.place = place
 
-local function placeDown(name)
+function building.placeDown(name)
     inventory.selectItem(name)
     return robot.placeDown()
 end
-building.placeDown = placeDown
 
-local function drop(name, count)
+function building.drop(name, count)
     local c = count or 1
     inventory.selectItem(name)
     robot.drop(c)
 end
-building.drop = drop
 
-local function forwardThenPlaceLeft(block, actions)
+function building.forwardThenPlaceLeft(block, actions)
     movement.stepsForward(1)
     robot.turnLeft()
     building.place(block, actions)
     robot.turnRight()
 end
-building.forwardThenPlaceLeft = forwardThenPlaceLeft
 
-local function buildSpear(height, block)
-    for i = 1, height do 
+function building.buildSpear(height, block)
+    for i = 1, height do
         robot.up()
         building.placeDown(block)
     end
 end
-building.buildSpear = buildSpear
 
 return building

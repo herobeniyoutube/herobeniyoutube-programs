@@ -4,32 +4,45 @@ local inventory = require("inventory")
 
 local using = {}
 
+local direction = {
+    front = 0,
+    up = 1,
+    down = 2,
+}
+
+local function use(side, shift, dir)
+        dir = dir or 0
+    local actions = {
+        [0] = robot.use,
+        [1] = robot.useUp,
+        [2] = robot.useDown,
+    }
+
+    local ok, why = actions[dir](side, shift)
+    if not ok then
+        error("use: couldn't use because: " .. why)
+    end
+
+    if why then
+        print("use: " .. why)
+    end
+end
+
 function using.useItem(side, name, shift)
     inventory.selectItem(name)
     inventory.switchToolWrapper(function ()
-        using.use(side, shift)
+        use(side, shift)
     end)
 end
 
 function using.use(side, shift)
-    return robot.use(side, shift)
-end
-
---obsolete
-function using.useShiftForward()
-    using.use(nil, true)
-    robot.forward()
-end
-
-function using.useShiftDown()
-    robot.useDown(nil, true)
-    robot.down()
+    use(side, shift)
 end
 
 function using.useForward(n, shift)
     local sneaky = shift or false
     for i = 1, n do
-        using.use(nil, sneaky)
+        use(nil, sneaky)
         movement.stepsForward(1)
     end
 end
@@ -39,7 +52,7 @@ function using.useUp(n, shift, moveLast, action)
     local move = moveLast or false
 
     for i = 1, n do
-        robot.useUp(nil, sneaky)
+        use(nil, sneaky, direction.up)
 
         if i < n or move then
             movement.stepsUp(1)
@@ -60,7 +73,7 @@ function using.useDown(n, shift, moveLast,  action)
             action()
         end
 
-        robot.useDown(nil, sneaky)
+        use(nil, sneaky, direction.down)
 
         if i < n or move then
             movement.stepsDown(1)

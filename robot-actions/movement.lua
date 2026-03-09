@@ -2,45 +2,79 @@ local robot = require("robot")
 
 local movement = {}
 
+local to = {
+    turnLeft = 0,
+    turnRight = 1,
+    forward = 2,
+    back = 3,
+    up = 4,
+    down = 5,
+    around = 6,
+}
+
+local function move(moveType)
+    if not moveType then
+        error("move function should have move type")
+    end
+
+    local moves = {
+        [0] = robot.turnLeft,
+        [1] = robot.turnRight,
+        [2] = robot.forward,
+        [3] = robot.back,
+        [4] = robot.up,
+        [5] = robot.down,
+        [6] = robot.around,
+    }
+
+    local ok, why = moves[moveType]()
+    if not ok then
+        error("couldn't move: " .. why)
+    end
+
+    if why then
+        print("move: " .. why)
+    end
+end
+
 function movement.stepsForward(n)
     for i = 1, n do
-        robot.forward()
+        move(to.forward)
     end
 end
 
 function movement.stepsBack(n)
     for i = 1, n do
-        robot.back()
+        move(to.back)
     end
 end
 
 function movement.turnAround()
-    robot.turnLeft()
-    robot.turnLeft()
+    move(to.around)
 end
 
 function movement.stepsDown(count)
     for i = 1, count do
-        robot.down()
+        move(to.down)
     end
 end
 
 function movement.stepsUp(count)
     for i = 1, count do
-        robot.up()
+        move(to.up)
     end
 end
 
 function movement.moveLeft(count)
-    robot.turnLeft()
+    move(to.turnLeft)
     movement.stepsForward(count)
-    robot.turnRight()
+    move(to.turnRight)
 end
 
 function movement.moveRight(count)
-    robot.turnRight()
+    move(to.turnRight)
     movement.stepsForward(count)
-    robot.turnLeft()
+    move(to.turnLeft)
 end
 
 return movement

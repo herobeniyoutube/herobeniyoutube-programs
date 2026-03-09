@@ -222,6 +222,7 @@ function quaryRun.run(built, loaded)
         built = false
 
         --идет на другую точку и встает там
+        print("moving" .. stepsToNextArea)
         movement.stepsForward(stepsToNextArea)
     end
 end
