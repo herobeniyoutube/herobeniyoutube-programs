@@ -1,4 +1,4 @@
-local quary = require("quary-scripts.quaryRun")
+local quary = require("quary-scripts.run")
 local robot = require("robot")
 
 local name = robot.name()

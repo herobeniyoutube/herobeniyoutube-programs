@@ -24,12 +24,12 @@ local frequencies ={
     stepsToNextArea = stepsToNextArea,
 }
 
-local buildScript, errBuilder = loadfile("./quary/build.lua")
+local buildScript, errBuilder = loadfile("/quary-scripts/build.lua")
 if not buildScript then
     error(errBuilder)
 end
 
-local disassembleScript, errDisassembler = loadfile("./quary/disassemble.lua")
+local disassembleScript, errDisassembler = loadfile("/quary-scripts/disassemble.lua")
 if not disassembleScript then
     error(errDisassembler)
 end
