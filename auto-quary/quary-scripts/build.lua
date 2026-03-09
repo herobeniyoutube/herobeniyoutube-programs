@@ -7,13 +7,13 @@ local using = require("using")
 local inventory = require("inventory")
 
 local function buildRingEdge()
-    building.forwardThenPlaceLeft("smart cable", {
+    building.forwardThenPlaceLeft(inventory.aliases.smart_cable, {
         function()
             movement.stepsUp(1)
         end,
         function()
             for i = 1, 3 do
-                building.place("ring")
+                building.place(inventory.aliases.ring)
                 if i < 3 then
                     movement.stepsUp(1)
                 end
@@ -26,26 +26,26 @@ end
 inventory.inventoryInit()
 
 movement.stepsForward(2)
-building.place("casing")
+building.place(inventory.aliases.casing)
 movement.stepsBack(1)
-building.place("casing")
+building.place(inventory.aliases.casing)
 movement.stepsBack(1)
 building.place(inventory.aliases.ore_drilling_plant)
 
 robot.turnRight()
 movement.stepsForward(2)
 robot.turnLeft()
-building.forwardThenPlaceLeft("energy hatch")
-building.forwardThenPlaceLeft("input hatch")
-building.forwardThenPlaceLeft("output hatch")
+building.forwardThenPlaceLeft(inventory.aliases.energy_hatch)
+building.forwardThenPlaceLeft(inventory.aliases.input_hatch)
+building.forwardThenPlaceLeft(inventory.aliases.output_hatch)
 
 movement.stepsForward(1)
 robot.turnLeft()
 movement.stepsForward(4)
 robot.turnLeft()
-building.forwardThenPlaceLeft("lv input bus")
-building.forwardThenPlaceLeft("output bus")
-building.forwardThenPlaceLeft("maintenance hatch")
+building.forwardThenPlaceLeft(inventory.aliases.lv_input_bus)
+building.forwardThenPlaceLeft(inventory.aliases.output_bus)
+building.forwardThenPlaceLeft(inventory.aliases.maintenance_hatch)
 
 movement.stepsForward(1)
 robot.turnLeft()
@@ -60,15 +60,15 @@ movement.stepsForward(1)
 
 for i = 1, 3 do
     for j = 1, 4 do
-        building.place("frame box")
+        building.place(inventory.aliases.frame_box)
         robot.turnLeft()
     end
 
     movement.stepsUp(1)
-    building.placeDown("casing")
+    building.placeDown(inventory.aliases.casing)
 end
 
-building.buildSpear(3, "frame box")
+building.buildSpear(3, inventory.aliases.frame_box)
 
 movement.stepsForward(3)
 robot.turnRight()
@@ -76,48 +76,48 @@ movement.stepsForward(2)
 movement.turnAround()
 movement.stepsDown(7)
 
-building.forwardThenPlaceLeft("p2p tunnel", {
-    function() using.useItem(sides.front, "energy tunnel") end, -- линк туннеля
-    function() building.place("smart cable") end
+building.forwardThenPlaceLeft(inventory.aliases.p2p_tunnel, {
+    function() using.useItem(sides.front, inventory.aliases.energy_tunnel) end, -- линк туннеля
+    function() building.place(inventory.aliases.smart_cable) end
 })
 
-building.forwardThenPlaceLeft("p2p tunnel", {
-    function() using.useItem(sides.front, "fluid tunnel") end, -- линк туннеля
-    function() building.place("smart cable") end
+building.forwardThenPlaceLeft(inventory.aliases.p2p_tunnel, {
+    function() using.useItem(sides.front, inventory.aliases.fluid_tunnel) end, -- линк туннеля
+    function() building.place(inventory.aliases.smart_cable) end
 })
 
-building.forwardThenPlaceLeft("fluid import bus", {
-    function() building.place("smart cable") end
+building.forwardThenPlaceLeft(inventory.aliases.fluid_import_bus, {
+    function() building.place(inventory.aliases.smart_cable) end
 })
 
 movement.stepsForward(2)
 robot.turnLeft()
-building.forwardThenPlaceLeft("smart cable")
+building.forwardThenPlaceLeft(inventory.aliases.smart_cable)
 
 buildRingEdge()
 
-building.forwardThenPlaceLeft("dense cable", {
+building.forwardThenPlaceLeft(inventory.aliases.dense_cable, {
     function()
         movement.stepsUp(1)
     end,
     function()
-        building.place("ring")
+        building.place(inventory.aliases.ring)
         movement.stepsUp(1)
     end,
     function()
-        building.place("ring center", {
+        building.place(inventory.aliases.ring_center, {
             function()
-                building.drop("singularity")
+                building.drop(inventory.aliases.singularity)
             end
         })
         movement.stepsUp(1)
     end,
     function()
-        building.place("ring")
+        building.place(inventory.aliases.ring)
         movement.stepsUp(1)
     end,
     function()
-        building.place("dense energy cell")
+        building.place(inventory.aliases.dense_energy_cell)
     end,
     function()
         movement.stepsDown(4)
@@ -129,36 +129,36 @@ buildRingEdge()
 movement.stepsForward(2)
 robot.turnLeft()
 
-building.forwardThenPlaceLeft("smart cable")
-building.forwardThenPlaceLeft("p2p tunnel", {
+building.forwardThenPlaceLeft(inventory.aliases.smart_cable)
+building.forwardThenPlaceLeft(inventory.aliases.p2p_tunnel, {
     function()
-        using.useItem(sides.front, "pipes tunnel")
-        building.place("smart cable")
+        using.useItem(sides.front, inventory.aliases.pipes_tunnel)
+        building.place(inventory.aliases.smart_cable)
     end
 })
-building.forwardThenPlaceLeft("import bus", {
+building.forwardThenPlaceLeft(inventory.aliases.import_bus, {
     function()
-        using.useItem(sides.front, "acceleration card", true)
-        building.place("smart cable")
+        using.useItem(sides.front, inventory.aliases.acceleration_card, true)
+        building.place(inventory.aliases.smart_cable)
     end
 })
-building.forwardThenPlaceLeft("smart cable", {
+building.forwardThenPlaceLeft(inventory.aliases.smart_cable, {
     function()
         movement.stepsUp(1)
         movement.stepsForward(1)
-        building.place("chest")
+        building.place(inventory.aliases.chest)
         movement.stepsBack(1)
-        building.place("import bus", {
-            function() building.place("smart cable") end
+        building.place(inventory.aliases.import_bus, {
+            function() building.place(inventory.aliases.smart_cable) end
         })
-        building.place("smart cable")
+        building.place(inventory.aliases.smart_cable)
         movement.stepsDown(1)
     end
 })
-building.forwardThenPlaceLeft("charger", {
+building.forwardThenPlaceLeft(inventory.aliases.charger, {
     function()
         movement.stepsUp(1)
-        building.place("smart cable")
+        building.place(inventory.aliases.smart_cable)
         movement.stepsDown(1)
     end
 })
@@ -170,14 +170,14 @@ robot.turnLeft()
 movement.stepsForward(1)
 robot.turnLeft()
 
-inventory.selectItem("computer wrench")
+inventory.selectItem(inventory.aliases.computer_wrench)
 inventory.switchToolWrapper(function()
     using.use(sides.front)
 end)
 
 movement.stepsUp(1)
-building.place("p2p tunnel", {
-    function() using.useItem(sides.front, "supply tunnel") end, -- линк туннеля
+building.place(inventory.aliases.p2p_tunnel, {
+    function() using.useItem(sides.front, inventory.aliases.supply_tunnel) end, -- линк туннеля
 })
 
 movement.stepsDown(1)

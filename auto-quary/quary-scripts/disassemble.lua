@@ -20,7 +20,7 @@ end
 
 inventory.inventoryInit()
 
-inventory.selectItem("pickaxe")
+inventory.selectItem(inventory.aliases.pickaxe)
 
 inventory.switchToolWrapper(function()
     movement.stepsUp(1)
@@ -44,11 +44,11 @@ inventory.switchToolWrapper(function()
     movement.stepsUp(1)
 
     inventory.switchToolWrapper(function ()
-        inventory.selectItem("computer wrench")
+        inventory.selectItem(inventory.aliases.computer_wrench)
         inventory.switchToolWrapper(function ()
                 using.useForward(1, true)
         end)
-        inventory.selectItem("pickaxe")
+        inventory.selectItem(inventory.aliases.pickaxe)
     end)
 
     destroying.digDown(4, true, function()

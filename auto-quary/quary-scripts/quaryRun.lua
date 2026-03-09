@@ -89,7 +89,7 @@ local function tryRepair()
     while wireless.read(frequencies.quaryNeedMaintenanceFreq) >= 15 do
         print("Repairing")
 
-        local tapeSlot = inventory.selectItem("duct tape")
+        local tapeSlot = inventory.selectItem(inventory.aliases.duct_tape)
 
         local slot = inv.getStackInInternalSlot(tapeSlot)
 
@@ -112,7 +112,7 @@ local function tryRepair()
         if wireless.read(frequencies.quaryNeedMaintenanceFreq) >= 15 then
             robot.swing()
             inventory.inventoryInit()
-            building.place("maintenance hatch")
+            building.place(inventory.aliases.maintenance_hatch)
         end
     end
 end
@@ -137,7 +137,7 @@ local function changeTool(frequency)
         error("changeTool: frequency can't be nil")
     end
 
-    local wrenchSlot = inventory.selectItem("computer wrench")
+    local wrenchSlot = inventory.selectItem(inventory.aliases.computer_wrench)
 
     inventory.switchToolWrapper(function()
         --drop old wrench
@@ -168,7 +168,7 @@ local function disassembleQuary()
         changeTool(frequencies.wrenchFreq)
     end
 
-    local pickaxeSlot = inventory.selectItem("pickaxe")
+    local pickaxeSlot = inventory.selectItem(inventory.aliases.pickaxe)
     if not durabilityOk() then
         inventory.switchToolWrapper(function()
             changeTool(frequencies.pickaxeFreq)
