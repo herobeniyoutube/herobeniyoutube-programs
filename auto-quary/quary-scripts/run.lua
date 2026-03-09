@@ -24,12 +24,12 @@ local frequencies ={
     stepsToNextArea = stepsToNextArea,
 }
 
-local buildQuaryScript, errBuilder = loadfile("/home/build_quary.lua")
-if not buildQuaryScript then
+local buildScript, errBuilder = loadfile("./quary/build.lua")
+if not buildScript then
     error(errBuilder)
 end
 
-local disassembleScript, errDisassembler = loadfile("/home/disassemble_quary.lua")
+local disassembleScript, errDisassembler = loadfile("./quary/disassemble.lua")
 if not disassembleScript then
     error(errDisassembler)
 end
@@ -179,11 +179,7 @@ local function disassembleQuary()
     disassembleScript()
 end
 
-local args = { ... }
-local built = args[1] or false
-local loaded = args[2] or false
-
-function quaryRun.SetId(id)
+function quaryRun.setId(id)
     minerId = id
 end
 
@@ -191,7 +187,7 @@ function quaryRun.SetStepsToTheNextArea(steps)
     stepsToNextArea = steps
 end
 
-function quaryRun.run()
+function quaryRun.run(built, loaded)
     if not minerId then
         error("miner id can't be nil")
     end
@@ -200,7 +196,7 @@ function quaryRun.run()
         offMiner()
 
         if not built then
-            buildQuaryScript()
+            buildScript()
         end
 
         -- запускает заполнение mining pipes и ждет их заполнения
