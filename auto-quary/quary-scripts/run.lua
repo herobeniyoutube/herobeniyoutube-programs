@@ -221,7 +221,8 @@ function quaryRun.run(built, loaded)
         -- разборка карьера
         disassembleQuary()
         built = false
-
+        loaded = false
+        
         --идет на другую точку и встает там
         logger.info("moving" .. stepsToNextArea)
         movement.stepsForward(stepsToNextArea)
