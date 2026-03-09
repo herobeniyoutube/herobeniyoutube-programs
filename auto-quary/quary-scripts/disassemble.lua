@@ -5,7 +5,6 @@ local movement = require("movement")
 local destroying = require("destroying")
 local inventory = require("inventory")
 local using = require("using")
-local sides = require("sides")
 
 local function spearDisassembly()
     for i = 1, 3 do

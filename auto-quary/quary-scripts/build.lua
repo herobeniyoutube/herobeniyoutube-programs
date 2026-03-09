@@ -30,7 +30,7 @@ building.place("casing")
 movement.stepsBack(1)
 building.place("casing")
 movement.stepsBack(1)
-building.place("ore drilling plant")
+building.place(inventory.aliases.ore_drilling_plant)
 
 robot.turnRight()
 movement.stepsForward(2)
