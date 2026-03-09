@@ -4,6 +4,7 @@ local inv = component.inventory_controller
 
 local movement = require("movement")
 local inventory = require("inventory")
+local logger = require("logger")
 
 local building = {}
 
@@ -14,10 +15,13 @@ local function place(name)
 
     local ok, why = robot.place()
     if not ok then
-        error("couldn't place block: " .. name .. "because: " .. why)
+        logger.error("couldn't place block: " .. tostring(name) .. " because: " .. tostring(why))
+        error("couldn't place block: " .. tostring(name) .. " because: " .. tostring(why))
     end
 
-    print("place: " .. why)
+    if why then
+        logger.info("place: " .. tostring(why))
+    end
 end
 
 function building.place(name, actions)

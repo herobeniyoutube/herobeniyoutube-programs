@@ -1,6 +1,7 @@
 local robot = require("robot")
 local movement = require("movement")
 local inventory = require("inventory")
+local logger = require("logger")
 
 local using = {}
 
@@ -20,11 +21,12 @@ local function use(side, shift, dir)
 
     local ok, why = actions[dir](side, shift)
     if not ok then
-        error("use: couldn't use because: " .. why)
+        logger.error("use: couldn't use because: " .. tostring(why))
+        error("use: couldn't use because: " .. tostring(why))
     end
 
     if why then
-        print("use: " .. why)
+        logger.info("use: " .. tostring(why))
     end
 end
 

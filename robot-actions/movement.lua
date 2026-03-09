@@ -1,4 +1,5 @@
 local robot = require("robot")
+local logger = require("logger")
 
 local movement = {}
 
@@ -29,11 +30,12 @@ local function move(moveType)
 
     local ok, why = moves[moveType]()
     if not ok then
-        error("couldn't move: " .. why)
+        logger.error("couldn't move: " .. tostring(why))
+        error("couldn't move: " .. tostring(why))
     end
 
     if why then
-        print("move: " .. why)
+        logger.info("move: " .. tostring(why))
     end
 end
 

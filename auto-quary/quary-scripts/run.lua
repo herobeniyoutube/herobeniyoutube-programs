@@ -7,6 +7,7 @@ local inv = component.inventory_controller
 local wireless = component.gt_wireless
 local inventory = require("inventory")
 local movement = require("movement")
+local logger = require("logger")
 
 local quaryRun = {}
 local stepsToNextArea = 80
@@ -40,7 +41,7 @@ local function loadPipes()
 
     while wireless.read(frequencies.pipesFullFreq) < 15 do
         local signal = wireless.read(frequencies.pipesFullFreq)
-        print("Mining pipes capacity signal: " .. tostring(signal))
+        logger.info("Mining pipes capacity signal: " .. tostring(signal))
         event.pull(5)
     end
 
@@ -49,12 +50,12 @@ end
 
 local function enableMiner()
     wireless.write(frequencies.enableMinerFreq, 15)
-    print("miner on")
+    logger.info("miner on")
 end
 
 local function offMiner()
     wireless.write(frequencies.enableMinerFreq, 0)
-    print("miner off")
+    logger.info("miner off")
 end
 
 local function restoreDuctTape(slot)
@@ -69,7 +70,7 @@ local function restoreDuctTape(slot)
     wireless.write(frequencies.tapeFreq, 0)
     event.pull(10)
 
-    print("duct tape supply off")
+    logger.info("duct tape supply off")
 
     movement.stepsDown(1)
     robot.turnRight()
@@ -77,7 +78,7 @@ end
 
 local function tryRepair()
     while wireless.read(frequencies.quaryNeedMaintenanceFreq) >= 15 do
-        print("Repairing")
+        logger.info("Repairing")
 
         local tapeSlot = inventory.selectItem(inventory.aliases.duct_tape)
 
@@ -112,7 +113,7 @@ local function minerMaintenance()
         tryRepair()
 
         local signal = wireless.read(frequencies.quaryFinished)
-        print("Working... signal=" .. tostring(signal))
+        logger.info("Working... signal=" .. tostring(signal))
         event.pull(5)
     end
 end
@@ -136,7 +137,7 @@ local function changeTool(frequency)
         robot.turnLeft()
 
         if result ~= nil then
-            print(result)
+            logger.warn(result)
         end
 
         --get new wrench
@@ -145,7 +146,7 @@ local function changeTool(frequency)
             event.pull(2)
         end
         wireless.write(frequency, 0)
-        print("tool supply off")
+        logger.info("tool supply off")
 
         --return to maintenance
         movement.stepsDown(1)
@@ -222,7 +223,7 @@ function quaryRun.run(built, loaded)
         built = false
 
         --идет на другую точку и встает там
-        print("moving" .. stepsToNextArea)
+        logger.info("moving" .. stepsToNextArea)
         movement.stepsForward(stepsToNextArea)
     end
 end

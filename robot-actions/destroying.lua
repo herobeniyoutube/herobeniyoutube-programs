@@ -1,5 +1,6 @@
 local robot = require("robot")
 local movement = require("movement")
+local logger = require("logger")
 
 local direction = {
     front = 0,
@@ -19,10 +20,12 @@ local function swing(dir)
 
     local ok, why = actions[dir]()
     if not ok then
-        print("couldn't break block: " .. "because: " .. why)
+        logger.error("couldn't break block: because: " .. tostring(why))
     end
 
-    print("swing: " .. why)
+    if why then
+        logger.info("swing: " .. tostring(why))
+    end
 end
 
 function destroying.digForward(n, actions)

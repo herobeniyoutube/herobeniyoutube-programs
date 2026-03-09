@@ -1,6 +1,7 @@
 local robot = require("robot")
 local component = require("component")
 local inv = component.inventory_controller
+local logger = require("logger")
 
 local aliases = {
     ore_drilling_plant = "ore drilling plant",
@@ -138,7 +139,7 @@ function inventory.inventoryInit(silent)
             local key = normalizeLabel(stack.label)
             inventory[key] = slot
             if not silent then
-                print(slot .. ": " .. stack.label .. " -> " .. key)
+                logger.info(slot .. ": " .. stack.label .. " -> " .. key)
             end
         end
     end
@@ -163,7 +164,7 @@ end
 
 function inventory.printInventory()
     for key, value in ipairs(inventory) do
-        print(key + "" + value)
+        logger.info(key .. "" .. value)
     end
 end
 
