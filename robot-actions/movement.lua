@@ -25,7 +25,7 @@ local function move(moveType)
         [3] = robot.back,
         [4] = robot.up,
         [5] = robot.down,
-        [6] = robot.around,
+        [6] = robot.turnAround,
     }
 
     local ok, why = moves[moveType]()
