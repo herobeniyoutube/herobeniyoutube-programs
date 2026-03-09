@@ -13,12 +13,13 @@ local stepsToNextArea = 80
 local minerId
 local frequencies
 
-local buildScript, errBuilder = loadfile("/quary-scripts/build.lua")
+local baseDir = "/home/quary-scripts"
+local buildScript, errBuilder = loadfile(baseDir .. "/build.lua")
 if not buildScript then
     error(errBuilder)
 end
 
-local disassembleScript, errDisassembler = loadfile("/quary-scripts/disassemble.lua")
+local disassembleScript, errDisassembler = loadfile(baseDir .. "/disassemble.lua")
 if not disassembleScript then
     error(errDisassembler)
 end

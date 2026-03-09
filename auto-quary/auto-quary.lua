@@ -1,4 +1,4 @@
-local quary = require("quary-scripts.run")
+local quary = assert(loadfile("/home/quary-scripts/run.lua"))()
 local robot = require("robot")
 
 local name = robot.name()
@@ -9,6 +9,6 @@ local built = args[1] or false
 local loaded = args[2] or false
 
 quary.setId(minerId)
-quary.setIdetStepsToTh2eNextArea(80)
+quary.setStepsToTheNextArea(80)
 quary.run(built, loaded)
 
