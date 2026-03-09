@@ -112,6 +112,10 @@ local function minerMaintenance()
     while wireless.read(frequencies.quaryFinished) < 15 do
         tryRepair()
 
+        if wireless.read(frequencies.enableMinerFreq) < 15 then
+            enableMiner()
+        end
+
         local signal = wireless.read(frequencies.quaryFinished)
         logger.info("Working... signal=" .. tostring(signal))
         event.pull(5)
@@ -222,7 +226,7 @@ function quaryRun.run(built, loaded)
         disassembleQuary()
         built = false
         loaded = false
-        
+
         --идет на другую точку и встает там
         logger.info("moving" .. stepsToNextArea)
         movement.stepsForward(stepsToNextArea)
