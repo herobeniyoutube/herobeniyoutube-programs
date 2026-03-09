@@ -11,18 +11,7 @@ local movement = require("movement")
 local quaryRun = {}
 local stepsToNextArea = 80
 local minerId
-
-local frequencies ={
-    pickaxeFreq = minerId * 100 + 1,
-    tapeFreq = minerId * 100 + 2,
-    wrenchFreq = minerId * 100 + 3,
-    enableMinerFreq = minerId * 100 + 4,
-    supplyPipesFreq = minerId * 100 + 5,
-    pipesFullFreq = minerId * 100 + 6,
-    quaryFinished = minerId * 100 + 7,
-    quaryNeedMaintenanceFreq = minerId * 100 + 8,
-    stepsToNextArea = stepsToNextArea,
-}
+local frequencies
 
 local buildScript, errBuilder = loadfile("/quary-scripts/build.lua")
 if not buildScript then
@@ -179,11 +168,25 @@ local function disassembleQuary()
     disassembleScript()
 end
 
+local function setFrequencies()
+    frequencies = {
+        pickaxeFreq = minerId * 100 + 1,
+        tapeFreq = minerId * 100 + 2,
+        wrenchFreq = minerId * 100 + 3,
+        enableMinerFreq = minerId * 100 + 4,
+        supplyPipesFreq = minerId * 100 + 5,
+        pipesFullFreq = minerId * 100 + 6,
+        quaryFinished = minerId * 100 + 7,
+        quaryNeedMaintenanceFreq = minerId * 100 + 8,
+        stepsToNextArea = stepsToNextArea,
+    }
+end
+
 function quaryRun.setId(id)
     minerId = id
 end
 
-function quaryRun.SetStepsToTheNextArea(steps)
+function quaryRun.setStepsToTheNextArea(steps)
     stepsToNextArea = steps
 end
 
@@ -191,6 +194,8 @@ function quaryRun.run(built, loaded)
     if not minerId then
         error("miner id can't be nil")
     end
+
+    setFrequencies()
 
     while true do
         offMiner()
