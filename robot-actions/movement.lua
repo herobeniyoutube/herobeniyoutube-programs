@@ -32,10 +32,8 @@ local function move(moveType)
     if not ok then
         logger.error("couldn't move: " .. tostring(why))
         error("couldn't move: " .. tostring(why))
-    end
-
-    if why then
-        logger.info("move: " .. tostring(why))
+    else
+        logger.info("move: " .. tostring(moveType))
     end
 end
 

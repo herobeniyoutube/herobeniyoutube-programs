@@ -22,10 +22,8 @@ local function use(side, shift, dir)
     local ok, why = actions[dir](side, shift)
     if not ok then
         logger.error("use: couldn't use because: " .. tostring(why))
-        error("use: couldn't use because: " .. tostring(why))
-    end
-
-    if why then
+        --error("use: couldn't use because: " .. tostring(why))
+    else 
         logger.info("use: " .. tostring(why))
     end
 end

@@ -10,6 +10,7 @@ local building = {}
 
 local function place(name)
     if not name then
+        logger.error("place: block name can't be nil")
         error("place: block name can't be nil")
     end
 
@@ -17,10 +18,8 @@ local function place(name)
     if not ok then
         logger.error("couldn't place block: " .. tostring(name) .. " because: " .. tostring(why))
         error("couldn't place block: " .. tostring(name) .. " because: " .. tostring(why))
-    end
-
-    if why then
-        logger.info("place: " .. tostring(why))
+    else
+        logger.info("place: " .. tostring(name))
     end
 end
 
@@ -31,6 +30,7 @@ function building.place(name, actions)
     if actions then
         for i, action in ipairs(actions) do
             if type(action) ~= "function" then
+                logger.error("place: actions[" .. i .. "] is not a function")
                 error("place: actions[" .. i .. "] is not a function")
             end
             action()

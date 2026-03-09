@@ -21,9 +21,7 @@ local function swing(dir)
     local ok, why = actions[dir]()
     if not ok then
         logger.error("couldn't break block: because: " .. tostring(why))
-    end
-
-    if why then
+    else
         logger.info("swing: " .. tostring(why))
     end
 end
@@ -36,6 +34,7 @@ function destroying.digForward(n, actions)
         if actions then
             for j, action in ipairs(actions) do
                 if type(action) ~= "function" then
+                    logger.error("place: actions[" .. j .. "] is not a function")
                     error("place: actions[" .. j .. "] is not a function")
                 end
                 action()
