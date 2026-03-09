@@ -109,15 +109,13 @@ local function tryRepair()
 end
 
 local function minerMaintenance()
+    logger.info("Working... signal=")
     while wireless.read(frequencies.quaryFinished) < 15 do
         tryRepair()
 
         if wireless.read(frequencies.enableMinerFreq) < 15 then
             enableMiner()
-        end
-
-        local signal = wireless.read(frequencies.quaryFinished)
-        logger.info("Working... signal=" .. tostring(signal))
+        end        
         event.pull(5)
     end
 end
@@ -199,6 +197,10 @@ end
 function quaryRun.run(built, loaded)
     if not minerId then
         error("miner id can't be nil")
+    end
+
+    if built or loaded then
+        inventory.inventoryInit()
     end
 
     setFrequencies()
