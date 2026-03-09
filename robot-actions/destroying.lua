@@ -1,6 +1,6 @@
 local robot = require("robot")
 local movement = require("movement")
-local logger = require("logger")
+local logger = require("herobeni-logger")
 
 local direction = {
     front = 0,

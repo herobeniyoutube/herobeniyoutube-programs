@@ -1,7 +1,7 @@
 local robot = require("robot")
 local component = require("component")
 local inv = component.inventory_controller
-local logger = require("logger")
+local logger = require("herobeni-logger")
 
 local aliases = {
     ore_drilling_plant = "ore drilling plant",

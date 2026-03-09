@@ -7,7 +7,7 @@ local inv = component.inventory_controller
 local wireless = component.gt_wireless
 local inventory = require("inventory")
 local movement = require("movement")
-local logger = require("logger")
+local logger = require("herobeni-logger")
 
 local quaryRun = {}
 local stepsToNextArea = 80

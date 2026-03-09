@@ -1,6 +1,6 @@
 local quary = assert(loadfile("/home/quary-scripts/run.lua"))()
 local robot = require("robot")
-local logger = require("logger")
+local logger = require("herobeni-logger")
 
 local name = robot.name()
 local minerId = tonumber(name:match("%d+"))

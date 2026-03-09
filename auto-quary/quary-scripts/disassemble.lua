@@ -1,6 +1,4 @@
 local robot = require("robot")
-local component = require("component")
-local inv = component.inventory_controller
 local movement = require("movement")
 local destroying = require("destroying")
 local inventory = require("inventory")

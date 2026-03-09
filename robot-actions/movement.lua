@@ -1,5 +1,5 @@
 local robot = require("robot")
-local logger = require("logger")
+local logger = require("herobeni-logger")
 
 local movement = {}
 

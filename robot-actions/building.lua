@@ -4,7 +4,7 @@ local inv = component.inventory_controller
 
 local movement = require("movement")
 local inventory = require("inventory")
-local logger = require("logger")
+local logger = require("herobeni-logger")
 
 local building = {}
 
