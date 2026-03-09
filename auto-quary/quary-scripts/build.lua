@@ -148,9 +148,7 @@ building.forwardThenPlaceLeft(inventory.aliases.smart_cable, {
         movement.stepsForward(1)
         building.place(inventory.aliases.chest)
         movement.stepsBack(1)
-        building.place(inventory.aliases.import_bus, {
-            function() building.place(inventory.aliases.smart_cable) end
-        })
+        building.place(inventory.aliases.import_bus)
         building.place(inventory.aliases.smart_cable)
         movement.stepsDown(1)
     end
