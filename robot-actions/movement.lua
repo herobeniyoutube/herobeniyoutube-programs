@@ -129,7 +129,7 @@ local function move(moveType)
         error("couldn't move: " .. tostring(why))
     else
         applyMoveToCoordinates(moveType)
-        logger.info("move: " .. tostring(moveType))
+        logger.info("move: " .. tostring(moveType) .. "to: x-" .. coordinates.x .. " z-" .. coordinates.z .. " y-" .. coordinates.y)
     end
 end
 movement.move = move
