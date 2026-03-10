@@ -62,7 +62,7 @@ end
 
 local function restoreDuctTape(slot)
     movement.stepsUp(1)
-    movement.move(movement.to.turnLeft)
+    movement.turn(movement.to.turnLeft)
 
     wireless.write(frequencies.tapeFreq, 15)
 
@@ -75,7 +75,7 @@ local function restoreDuctTape(slot)
     logger.info("duct tape supply off")
 
     movement.stepsDown(1)
-    movement.move(movement.to.turnRight)
+    movement.turn(movement.to.turnRight)
 end
 
 local function tryRepair()
@@ -139,7 +139,7 @@ local function changeTool(frequency)
         --drop old wrench
         movement.stepsUp(1)
         local ok, result = building.drop()
-        movement.move(movement.to.turnRight)
+        movement.turn(movement.to.turnRight)
         if result ~= nil then
             logger.warn(result)
         end
@@ -154,7 +154,7 @@ local function changeTool(frequency)
 
         --return to maintenance
         movement.stepsDown(1)
-        movement.move(movement.to.turnRight)
+        movement.turn(movement.to.turnRight)
     end)
 end
 
@@ -188,8 +188,8 @@ local function setFrequencies()
     }
 end
 
-function quary.setCoordinates(x, z)
-    
+function quary.setCoordinates(x, z, y, )
+    movement.setupCoordination(x, z, y, )
 end
 
 function quary.setId(id)

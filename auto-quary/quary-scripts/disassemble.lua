@@ -8,7 +8,7 @@ local function spearDisassembly()
         destroying.digUp(1, true)
         for j = 1, 4 do
             destroying.swing()
-            movement.move(movement.to.turnRight)
+            movement.turn(movement.to.turnRight)
         end
     end
 
@@ -22,15 +22,15 @@ inventory.selectItem(inventory.aliases.pickaxe)
 inventory.switchToolWrapper(function()
     movement.stepsUp(1)
     destroying.swing()
-    movement.move(movement.to.turnLeft)
+    movement.turn(movement.to.turnLeft)
     destroying.swing()
     movement.stepsForward(1)
-    movement.move(movement.to.turnRight)
+    movement.turn(movement.to.turnRight)
     destroying.swing()
     destroying.digDown(1, true)
 
     destroying.digForward(4)
-    movement.move(movement.to.turnRight)
+    movement.turn(movement.to.turnRight)
 
     destroying.digForward(1)
 
@@ -53,29 +53,29 @@ inventory.switchToolWrapper(function()
     end)
 
     destroying.digForward(2)
-    movement.move(movement.to.turnRight)
+    movement.turn(movement.to.turnRight)
     destroying.digForward(2)
     destroying.swing()
 end)
 
-movement.move(movement.to.turnRight)
+movement.turn(movement.to.turnRight)
 destroying.digForward(3, {
     function ()
-        movement.move(movement.to.turnRight)
+        movement.turn(movement.to.turnRight)
         destroying.swing()
-        movement.move(movement.to.around)
+        movement.turn(movement.to.around)
         destroying.swing()
-        movement.move(movement.to.turnRight)
+        movement.turn(movement.to.turnRight)
     end
 })
 
-movement.move(movement.to.around)
+movement.turn(movement.to.around)
 
 movement.stepsForward(1)
 spearDisassembly()
 
 movement.moveRight(2)
-movement.move(movement.to.turnLeft)
+movement.turn(movement.to.turnLeft)
 movement.stepsDown(5)
 
 inventory.inventoryInit(true)

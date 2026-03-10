@@ -59,6 +59,17 @@ local function turnAround()
     robot.turnAround()
 end
 
+local function turn(turnType)
+    local moves = {
+        [0] = turnLeft,
+        [1] = turnRight,
+        [6] = turnAround,
+    }
+
+    moves[turnType]()
+end
+movement.turn = turn
+
 local function move(moveType)
     if not currentDirection then
         error("direction state should not be nil. Set it with setupCoordination(x, y, z, side)")
@@ -69,13 +80,10 @@ local function move(moveType)
     end
 
     local moves = {
-        [0] = turnLeft,
-        [1] = turnRight,
         [2] = robot.forward,
         [3] = robot.back,
         [4] = robot.up,
         [5] = robot.down,
-        [6] = turnAround,
     }
 
     local ok, why = moves[moveType]()
@@ -86,12 +94,17 @@ local function move(moveType)
         logger.info("move: " .. tostring(moveType))
     end
 end
+movement.move = move
 
-function movement.setupCoordination(x, y, z, side)
+function movement.setupCoordination(x, z, y, side)
+    if not x or not z or not y or not side then
+        error("setupCoordination: invalid input")
+    end
+
     currentDirection = side
     coordinates.x = x
-    coordinates.y = y
     coordinates.z = z
+    coordinates.y = y
 end
 
 function movement.stepsForward(n)
@@ -107,7 +120,7 @@ function movement.stepsBack(n)
 end
 
 function movement.turnAround()
-    move(to.around)
+    turn(to.around)
 end
 
 function movement.stepsDown(count)
@@ -123,15 +136,15 @@ function movement.stepsUp(count)
 end
 
 function movement.moveLeft(count)
-    move(to.turnLeft)
+    turn(to.turnLeft)
     movement.stepsForward(count)
-    move(to.turnRight)
+    turn(to.turnRight)
 end
 
 function movement.moveRight(count)
-    move(to.turnRight)
+    turn(to.turnRight)
     movement.stepsForward(count)
-    move(to.turnLeft)
+    turn(to.turnLeft)
 end
 
 return movement
