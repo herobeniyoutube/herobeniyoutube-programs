@@ -116,7 +116,7 @@ local function minerMaintenance()
         tryRepair()
 
         local signal = wireless.read(frequencies.enableMinerFreq)
-        if signal and signal < 15 then
+        if not signal or signal < 15 then
             enableMiner()
         end
         event.pull(5)
