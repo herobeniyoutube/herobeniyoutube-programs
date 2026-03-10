@@ -12,6 +12,7 @@ local levels = {
 local currentLevel = levels.info
 local logFile = "/home/logs/robot.log"
 local toConsole = true
+local cleared = false
 
 local function ensureDir(path)
     local dir = filesystem.path(path)
@@ -29,6 +30,13 @@ local function write(level, message)
     end
 
     ensureDir(logFile)
+    if not cleared then
+        local fresh = io.open(logFile, "w")
+        if fresh then
+            fresh:close()
+        end
+        cleared = true
+    end
     local file = io.open(logFile, "a")
     if file then
         file:write(line .. "\n")
@@ -47,6 +55,7 @@ end
 function logger.setLogFile(path)
     if path and path ~= "" then
         logFile = path
+        cleared = false
     else
         write("WARN", "log file path is empty")
     end
