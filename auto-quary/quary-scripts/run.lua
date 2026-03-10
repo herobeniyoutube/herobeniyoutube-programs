@@ -188,8 +188,8 @@ local function setFrequencies()
     }
 end
 
-function quary.setCoordinates(x, z, y, )
-    movement.setupCoordination(x, z, y, )
+function quary.setCoordinates(x, z, y, direction)
+    movement.setupCoordination(x, z, y, direction)
 end
 
 function quary.setId(id)

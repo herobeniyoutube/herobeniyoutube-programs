@@ -8,17 +8,19 @@ local minerId = tonumber(name:match("%d+"))
 local args = { ... }
 local x = args[1]
 local z = args[2]
+local y = args[3]
+local side = args[4]
 
 if not x or not z then
     error("auto-quage usage: auto quary 0(x) 0(z) nil[boolean](built) nil[boolean](loaded)")
 end
 
-local built = args[3] or false
-local loaded = args[4] or false
+local built = args[5] or false
+local loaded = args[6] or false
 
 quary.setId(minerId)
 quary.setStepsToTheNextArea(80)
-quary.setCoordinates(x, z)
+quary.setCoordinates(x, z, y, side)
 
 local ok, err = xpcall(function()
     quary.run(built, loaded)

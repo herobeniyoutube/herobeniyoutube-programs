@@ -22,12 +22,13 @@ local coordinates = {
 
 local currentDirection
 
-movement.directions = {
+local direction = {
     south = 0,
     east = 1,
     north = 2,
     west = 3
 }
+movement.directions = direction
 
 local function turnLeft()
     if currentDirection == movement.directions.south then
@@ -40,7 +41,7 @@ local function turnLeft()
 end
 
 local function turnRight()
-if currentDirection == movement.directions.west then
+    if currentDirection == movement.directions.west then
         currentDirection = movement.directions.south
     else
         currentDirection = currentDirection + 1
@@ -70,6 +71,42 @@ local function turn(turnType)
 end
 movement.turn = turn
 
+local directionVectors = {
+    [direction.south] = { x = 0, z = 1 },
+    [direction.east] = { x = 1, z = 0 },
+    [direction.north] = { x = 0, z = -1 },
+    [direction.west] = { x = -1, z = 0 },
+}
+
+local function applyMoveToCoordinates(moveType)
+    local dx, dy, dz = 0, 0, 0
+
+    if moveType == to.up then
+        dy = 1
+    elseif moveType == to.down then
+        dy = -1
+    else
+        local vec = directionVectors[currentDirection]
+        if not vec then
+            error("unknown direction: " .. tostring(currentDirection))
+        end
+
+        if moveType == to.forward then
+            dx = vec.x
+            dz = vec.z
+        elseif moveType == to.back then
+            dx = -vec.x
+            dz = -vec.z
+        else
+            error("unsupported move type: " .. tostring(moveType))
+        end
+    end
+
+    coordinates.x = coordinates.x + dx
+    coordinates.y = coordinates.y + dy
+    coordinates.z = coordinates.z + dz
+end
+
 local function move(moveType)
     if not currentDirection then
         error("direction state should not be nil. Set it with setupCoordination(x, y, z, side)")
@@ -91,6 +128,7 @@ local function move(moveType)
         logger.error("couldn't move: " .. tostring(why))
         error("couldn't move: " .. tostring(why))
     else
+        applyMoveToCoordinates(moveType)
         logger.info("move: " .. tostring(moveType))
     end
 end
@@ -101,7 +139,15 @@ function movement.setupCoordination(x, z, y, side)
         error("setupCoordination: invalid input")
     end
 
-    currentDirection = side
+    if type(side) == "string" then
+        local normalized = string.lower(side)
+        if direction[normalized] == nil then
+            error("setupCoordination: unknown direction '" .. tostring(side) .. "'")
+        end
+        currentDirection = direction[normalized]
+    else
+        currentDirection = side
+    end
     coordinates.x = x
     coordinates.z = z
     coordinates.y = y
