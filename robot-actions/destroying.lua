@@ -25,6 +25,7 @@ local function swing(dir)
         logger.info("swing: " .. tostring(why))
     end
 end
+destroying.swing = swing
 
 function destroying.digForward(n, actions)
     for i = 1, n do

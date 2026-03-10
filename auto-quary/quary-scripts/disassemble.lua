@@ -1,4 +1,3 @@
-local robot = require("robot")
 local movement = require("movement")
 local destroying = require("destroying")
 local inventory = require("inventory")
@@ -8,8 +7,8 @@ local function spearDisassembly()
     for i = 1, 3 do
         destroying.digUp(1, true)
         for j = 1, 4 do
-            robot.swing()
-            robot.turnRight()
+            destroying.swing()
+            movement.move(movement.to.turnRight)
         end
     end
 
@@ -22,21 +21,21 @@ inventory.selectItem(inventory.aliases.pickaxe)
 
 inventory.switchToolWrapper(function()
     movement.stepsUp(1)
-    robot.swing()
-    robot.turnLeft()
-    robot.swing()
+    destroying.swing()
+    movement.move(movement.to.turnLeft)
+    destroying.swing()
     movement.stepsForward(1)
-    robot.turnRight()
-    robot.swing()
+    movement.move(movement.to.turnRight)
+    destroying.swing()
     destroying.digDown(1, true)
 
     destroying.digForward(4)
-    robot.turnRight()
+    movement.move(movement.to.turnRight)
 
     destroying.digForward(1)
 
     destroying.digUp(3, true, function ()
-        robot.swing()
+        destroying.swing()
     end)
 
     movement.stepsUp(1)
@@ -50,32 +49,33 @@ inventory.switchToolWrapper(function()
     end)
 
     destroying.digDown(4, true, function()
-        robot.swing()
+        destroying.swing()
     end)
 
     destroying.digForward(2)
-    robot.turnRight()
+    movement.move(movement.to.turnRight)
     destroying.digForward(2)
-    robot.swing()
+    destroying.swing()
 end)
 
-robot.turnRight()
+movement.move(movement.to.turnRight)
 destroying.digForward(3, {
     function ()
-        robot.turnRight()
-        robot.swing()
-        robot.turnAround()
-        robot.swing()
-        robot.turnRight()
+        movement.move(movement.to.turnRight)
+        destroying.swing()
+        movement.move(movement.to.around)
+        destroying.swing()
+        movement.move(movement.to.turnRight)
     end
 })
 
-robot.turnAround()
+movement.move(movement.to.around)
+
 movement.stepsForward(1)
 spearDisassembly()
 
 movement.moveRight(2)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 movement.stepsDown(5)
 
 inventory.inventoryInit(true)

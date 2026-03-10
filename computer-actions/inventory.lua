@@ -131,6 +131,14 @@ local function normalizeLabel(label)
     return label
 end
 
+function inventory.select(slot)
+    if not slot then
+        error("select: slot should be specified")
+    end
+
+    robot.select(slot)
+end
+
 function inventory.inventoryInit(silent)
     for slot = 1, robot.inventorySize() do
         local stack = inv.getStackInInternalSlot(slot)
@@ -151,7 +159,7 @@ function inventory.selectItem(name)
         error("item not found in inventory: " .. tostring(name))
     end
 
-    robot.select(slot)
+    inventory.select(slot)
 
     return slot
 end

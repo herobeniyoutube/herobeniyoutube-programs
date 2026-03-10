@@ -12,20 +12,70 @@ local to = {
     down = 5,
     around = 6,
 }
+movement.to = to
+
+local coordinates = {
+    x = 0,
+    z = 0,
+    y = 0
+}
+
+local currentDirection
+
+movement.directions = {
+    south = 0,
+    east = 1,
+    north = 2,
+    west = 3
+}
+
+local function turnLeft()
+    if currentDirection == movement.directions.south then
+        currentDirection = movement.directions.west
+    else
+        currentDirection = currentDirection - 1
+    end
+
+    robot.turnLeft()
+end
+
+local function turnRight()
+if currentDirection == movement.directions.west then
+        currentDirection = movement.directions.south
+    else
+        currentDirection = currentDirection + 1
+    end
+
+    robot.turnRight()
+end
+
+local function turnAround()
+    if currentDirection > 1 then
+        currentDirection = currentDirection - 2
+    else
+        currentDirection = currentDirection + 2
+    end
+
+    robot.turnAround()
+end
 
 local function move(moveType)
+    if not currentDirection then
+        error("direction state should not be nil. Set it with setupCoordination(x, y, z, side)")
+    end
+
     if not moveType then
         error("move function should have move type")
     end
 
     local moves = {
-        [0] = robot.turnLeft,
-        [1] = robot.turnRight,
+        [0] = turnLeft,
+        [1] = turnRight,
         [2] = robot.forward,
         [3] = robot.back,
         [4] = robot.up,
         [5] = robot.down,
-        [6] = robot.turnAround,
+        [6] = turnAround,
     }
 
     local ok, why = moves[moveType]()
@@ -35,6 +85,13 @@ local function move(moveType)
     else
         logger.info("move: " .. tostring(moveType))
     end
+end
+
+function movement.setupCoordination(x, y, z, side)
+    currentDirection = side
+    coordinates.x = x
+    coordinates.y = y
+    coordinates.z = z
 end
 
 function movement.stepsForward(n)

@@ -1,15 +1,17 @@
-local robot = require("robot")
+--local robot = require("robot")
 local component = require("component")
 local sides = require("sides")
 local event = require("event")
 local building = require("building")
+local using    = require("using")
+local destroying = require("destroying")
 local inv = component.inventory_controller
 local wireless = component.gt_wireless
 local inventory = require("inventory")
 local movement = require("movement")
 local logger = require("herobeni-logger")
 
-local quaryRun = {}
+local quary = {}
 local stepsToNextArea = 80
 local minerId
 local frequencies
@@ -60,7 +62,7 @@ end
 
 local function restoreDuctTape(slot)
     movement.stepsUp(1)
-    robot.turnLeft()
+    movement.move(movement.to.turnLeft)
 
     wireless.write(frequencies.tapeFreq, 15)
 
@@ -73,7 +75,7 @@ local function restoreDuctTape(slot)
     logger.info("duct tape supply off")
 
     movement.stepsDown(1)
-    robot.turnRight()
+    movement.move(movement.to.turnRight)
 end
 
 local function tryRepair()
@@ -91,7 +93,7 @@ local function tryRepair()
         inventory.switchToolWrapper(function()
             if wireless.read(frequencies.quaryNeedMaintenanceFreq) >= 15 then
                 for i = 0, 2 do
-                    robot.use(sides.front)
+                    using.use(sides.front)
                     event.pull(10)
                     if wireless.read(frequencies.quaryNeedMaintenanceFreq) < 15 then
                         break
@@ -101,7 +103,7 @@ local function tryRepair()
         end)
 
         if wireless.read(frequencies.quaryNeedMaintenanceFreq) >= 15 then
-            robot.swing()
+            destroying.swing()
             inventory.inventoryInit()
             building.place(inventory.aliases.maintenance_hatch)
         end
@@ -113,9 +115,10 @@ local function minerMaintenance()
     while wireless.read(frequencies.quaryFinished) < 15 do
         tryRepair()
 
-        if wireless.read(frequencies.enableMinerFreq) < 15 then
+        local signal = wireless.read(frequencies.enableMinerFreq)
+        if signal and signal < 15 then
             enableMiner()
-        end        
+        end
         event.pull(5)
     end
 end
@@ -135,9 +138,8 @@ local function changeTool(frequency)
     inventory.switchToolWrapper(function()
         --drop old wrench
         movement.stepsUp(1)
-        local ok, result = robot.drop()
-        robot.turnLeft()
-
+        local ok, result = building.drop()
+        movement.move(movement.to.turnRight)
         if result ~= nil then
             logger.warn(result)
         end
@@ -152,7 +154,7 @@ local function changeTool(frequency)
 
         --return to maintenance
         movement.stepsDown(1)
-        robot.turnRight()
+        movement.move(movement.to.turnRight)
     end)
 end
 
@@ -165,7 +167,7 @@ local function disassembleQuary()
     if not durabilityOk() then
         inventory.switchToolWrapper(function()
             changeTool(frequencies.pickaxeFreq)
-            robot.select(pickaxeSlot)
+            inventory.select(pickaxeSlot)
         end)
     end
 
@@ -186,15 +188,19 @@ local function setFrequencies()
     }
 end
 
-function quaryRun.setId(id)
+function quary.setCoordinates(x, z)
+    
+end
+
+function quary.setId(id)
     minerId = id
 end
 
-function quaryRun.setStepsToTheNextArea(steps)
+function quary.setStepsToTheNextArea(steps)
     stepsToNextArea = steps
 end
 
-function quaryRun.run(built, loaded)
+function quary.run(built, loaded)
     if not minerId then
         error("miner id can't be nil")
     end
@@ -235,4 +241,4 @@ function quaryRun.run(built, loaded)
     end
 end
 
-return quaryRun
+return quary

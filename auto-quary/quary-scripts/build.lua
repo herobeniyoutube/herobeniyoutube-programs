@@ -1,4 +1,3 @@
-local robot = require("robot")
 local sides = require("sides")
 
 local movement = require("movement")
@@ -32,36 +31,36 @@ building.place(inventory.aliases.casing)
 movement.stepsBack(1)
 building.place(inventory.aliases.ore_drilling_plant)
 
-robot.turnRight()
+movement.move(movement.to.turnRight)
 movement.stepsForward(2)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 building.forwardThenPlaceLeft(inventory.aliases.energy_hatch)
 building.forwardThenPlaceLeft(inventory.aliases.input_hatch)
 building.forwardThenPlaceLeft(inventory.aliases.output_hatch)
 
 movement.stepsForward(1)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 movement.stepsForward(4)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 building.forwardThenPlaceLeft(inventory.aliases.lv_input_bus)
 building.forwardThenPlaceLeft(inventory.aliases.output_bus)
 building.forwardThenPlaceLeft(inventory.aliases.maintenance_hatch)
 
 movement.stepsForward(1)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 movement.stepsForward(1)
-robot.turnLeft()
-robot.use(sides.front, true)
+movement.move(movement.to.turnLeft)
+using.use(sides.front, true)
 
 movement.stepsUp(1)
 movement.stepsForward(2)
-robot.turnRight()
+movement.move(movement.to.turnRight)
 movement.stepsForward(1)
 
 for i = 1, 3 do
     for j = 1, 4 do
         building.place(inventory.aliases.frame_box)
-        robot.turnLeft()
+        movement.move(movement.to.turnLeft)
     end
 
     movement.stepsUp(1)
@@ -71,7 +70,7 @@ end
 building.buildSpear(3, inventory.aliases.frame_box)
 
 movement.stepsForward(3)
-robot.turnRight()
+movement.move(movement.to.turnRight)
 movement.stepsForward(2)
 movement.turnAround()
 movement.stepsDown(7)
@@ -91,7 +90,7 @@ building.forwardThenPlaceLeft(inventory.aliases.fluid_import_bus, {
 })
 
 movement.stepsForward(2)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 building.forwardThenPlaceLeft(inventory.aliases.smart_cable)
 
 buildRingEdge()
@@ -127,7 +126,7 @@ building.forwardThenPlaceLeft(inventory.aliases.dense_cable, {
 buildRingEdge()
 
 movement.stepsForward(2)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 
 building.forwardThenPlaceLeft(inventory.aliases.smart_cable)
 building.forwardThenPlaceLeft(inventory.aliases.p2p_tunnel, {
@@ -162,11 +161,11 @@ building.forwardThenPlaceLeft(inventory.aliases.charger, {
 })
 
 movement.stepsForward(1)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 movement.stepsForward(2)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 movement.stepsForward(1)
-robot.turnLeft()
+movement.move(movement.to.turnLeft)
 
 inventory.selectItem(inventory.aliases.computer_wrench)
 inventory.switchToolWrapper(function()
@@ -179,4 +178,4 @@ building.place(inventory.aliases.p2p_tunnel, {
 })
 
 movement.stepsDown(1)
-robot.turnRight()
+movement.move(movement.to.turnRight)

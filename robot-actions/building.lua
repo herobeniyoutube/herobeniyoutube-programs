@@ -45,8 +45,10 @@ end
 
 function building.drop(name, count)
     local c = count or 1
-    inventory.selectItem(name)
-    robot.drop(c)
+    if name then
+        inventory.selectItem(name)
+    end
+    return robot.drop(c)
 end
 
 function building.forwardThenPlaceLeft(block, actions)
