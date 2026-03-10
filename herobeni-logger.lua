@@ -65,6 +65,15 @@ function logger.setConsole(enabled)
     toConsole = not not enabled
 end
 
+function logger.clear()
+    ensureDir(logFile)
+    local fresh = io.open(logFile, "w")
+    if fresh then
+        fresh:close()
+    end
+    cleared = true
+end
+
 function logger.debug(message)
     if currentLevel <= levels.debug then
         write("DEBUG", message)

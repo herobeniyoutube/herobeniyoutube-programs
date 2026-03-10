@@ -112,7 +112,7 @@ end
 
 local function minerMaintenance()
     logger.info("Working... signal=")
-    while wireless.read(frequencies.quaryFinished) < 15 do
+    while wireless.read(frequencies.quaryFinished) and wireless.read(frequencies.quaryFinished) < 15 do
         tryRepair()
 
         local signal = wireless.read(frequencies.enableMinerFreq)
@@ -212,6 +212,7 @@ function quary.run(built, loaded)
     setFrequencies()
 
     while true do
+        logger.clear()
         offMiner()
 
         if not built then
