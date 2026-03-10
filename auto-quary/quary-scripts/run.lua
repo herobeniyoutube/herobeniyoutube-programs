@@ -38,12 +38,24 @@ end
 --229 сигнал разборки карьера (значит что в подсети заполнено хранилище труб - майнер разобрал свои трубы)
 --300 поломка
 
+local function safeRead(freq, label)
+    local signal = wireless.read(freq)
+    if signal == nil then
+        logger.warn((label or "signal") .. " is nil (chunk load?)")
+        return nil
+    end
+    return signal
+end
+
 local function loadPipes()
     wireless.write(frequencies.supplyPipesFreq, 15)
 
-    while wireless.read(frequencies.pipesFullFreq) < 15 do
-        local signal = wireless.read(frequencies.pipesFullFreq)
+    while true do
+        local signal = safeRead(frequencies.pipesFullFreq, "pipesFull")
         logger.info("Mining pipes capacity signal: " .. tostring(signal))
+        if signal and signal >= 15 then
+            break
+        end
         event.pull(5)
     end
 
@@ -79,7 +91,11 @@ local function restoreDuctTape(slot)
 end
 
 local function tryRepair()
-    while wireless.read(frequencies.quaryNeedMaintenanceFreq) >= 15 do
+    while true do
+        local need = safeRead(frequencies.quaryNeedMaintenanceFreq, "maintenance")
+        if not need or need < 15 then
+            break
+        end
         logger.info("Repairing")
 
         local tapeSlot = inventory.selectItem(inventory.aliases.duct_tape)
@@ -91,18 +107,21 @@ local function tryRepair()
         end
 
         inventory.switchToolWrapper(function()
-            if wireless.read(frequencies.quaryNeedMaintenanceFreq) >= 15 then
+            local stillNeed = safeRead(frequencies.quaryNeedMaintenanceFreq, "maintenance")
+            if stillNeed and stillNeed >= 15 then
                 for i = 0, 2 do
                     using.use(sides.front)
                     event.pull(10)
-                    if wireless.read(frequencies.quaryNeedMaintenanceFreq) < 15 then
+                    local needAgain = safeRead(frequencies.quaryNeedMaintenanceFreq, "maintenance")
+                    if not needAgain or needAgain < 15 then
                         break
                     end
                 end
             end
         end)
 
-        if wireless.read(frequencies.quaryNeedMaintenanceFreq) >= 15 then
+        local needAfter = safeRead(frequencies.quaryNeedMaintenanceFreq, "maintenance")
+        if needAfter and needAfter >= 15 then
             destroying.swing()
             inventory.inventoryInit()
             building.place(inventory.aliases.maintenance_hatch)
@@ -112,10 +131,15 @@ end
 
 local function minerMaintenance()
     logger.info("Working... signal=")
-    while wireless.read(frequencies.quaryFinished) and wireless.read(frequencies.quaryFinished) < 15 do
+    while true do
         tryRepair()
 
-        local signal = wireless.read(frequencies.enableMinerFreq)
+        local finished = safeRead(frequencies.quaryFinished, "quaryFinished")
+        if finished and finished >= 15 then
+            break
+        end
+
+        local signal = safeRead(frequencies.enableMinerFreq, "enableMiner")
         if not signal or signal < 15 then
             enableMiner()
         end
